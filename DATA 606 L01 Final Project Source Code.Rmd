@@ -1,0 +1,1892 @@
+---
+fontsize: 12pt
+output: 
+  pdf_document:
+---
+## Section I: Introduction to Spam E-mail Dataset
+
+In today's digital landscape, despite the rise of social media, e-mail continues 
+to be a widely used communication method, offering convenient and immediate 
+global information exchanges. However, the popularity and convenience of e-mail 
+also introduce the issue of e-mail spam. Spam refers to unsolicited, often 
+irrelevant, or inappropriate e-mails sent over the internet to many recipients. 
+They can be unwanted advertisements, phishing messages (aiming to trick 
+recipients into revealing sensitive information), or malicious content such as 
+malware. According to the American Economic Association, American corporations 
+and consumers experience costs of over $20 billion annually due to spam [1]. 
+
+Our objective is to address the problem of e-mail spam by developing a detection 
+model that utilizes supervised learning classification algorithms. The 
+techniques and models we intend to explore include logistic regression, and 
+linear discriminant analysis (LDA). Our goal is to determine the most effective 
+predictive model for identifying spam e-mails, thereby enabling more efficient 
+spam filtering mechanisms.  The outcome of this project will provide insights 
+into the specific traits that define spam e-mails, enabling the development of 
+enhanced detection methods. By evaluating the accuracy and efficiency of these 
+models, we aim to decrease the volume of unwanted e-mails, offering a clearer, 
+safer e-mail experience for users. 
+
+## Section II: Dataset Description and Analysis Methodology
+
+The dataset is sourced from the UCI Machine Learning Repository’s Spambase 
+dataset. It is a publicly available dataset which is licensed under CC BY 4.0. 
+The e-mails within the dataset are composed of both spam e-mails and non-spam 
+e-mails. The spam e-mails were identified by a postmaster as well as individuals 
+who had identified e-mails as spam. The non-spam e-mails were provided by filed 
+work sources and personal e-mails. The dataset contains 4600 e-mails which have 
+57 quantitative features and 1 qualitative feature. The quantitative features 
+represent the frequency of occurrences of words, sequential numbers, special 
+characters, and sequential capitals. The only qualitative feature is the 
+objective variable which denotes if the e-mail is spam or not. Below are the 
+features available within the dataset.[2]
+
+\newpage
+
+### Table 2.1 Dataset Feature Description - Qualitative
+
+| **Label (Outcome)** | **Type**    | **Description**                             |
+| ------------------- | ----------- | ------------------------------------------- |
+| spam_classes        | Qualitative | Denotes if an email is spam or not (1 or 0) |
+
+### Table 2.2 Dataset Feature Description - Quantitative
+
+| **Feature Name**           | **Feature Type** | **Feature Description**                           |
+| -------------------------- | ---------------- | ------------------------------------------------- |
+| word_freq_make             | Quantitative     | Frequency of “make” in an email                   |
+| word_freq_address          | Quantitative     | Frequency of “address” in an email                |
+| word_freq_all              | Quantitative     | Frequency of “all” in an email                    |
+| word_freq_3d               | Quantitative     | Frequency of “3d” in an email                     |
+| word_freq_our              | Quantitative     | Frequency of “our” in an email                    |
+| word_freq_over             | Quantitative     | Frequency of “over” in an email                   |
+| word_freq_remove           | Quantitative     | Frequency of “remove” in an email                 |
+| word_freq_internet         | Quantitative     | Frequency of “internet” in an email               |
+| word_freq_order            | Quantitative     | Frequency of “order” in an email                  |
+| word_freq_mail             | Quantitative     | Frequency of “mail” in an email                   |
+| word_freq_receive          | Quantitative     | Frequency of “receive” in an email                |
+| word_freq_will             | Quantitative     | Frequency of “will” in an email                   |
+| word_freq_people           | Quantitative     | Frequency of “people” in an email                 |
+| word_freq_report           | Quantitative     | Frequency of “report” in an email                 |
+| word_freq_addresses        | Quantitative     | Frequency of “address” in an email                |
+| word_freq_free             | Quantitative     | Frequency of “free” in an email                   |
+| word_freq_business         | Quantitative     | Frequency of “business” in an email               |
+| word_freq_email            | Quantitative     | Frequency of “email” in an email                  |
+| word_freq_you              | Quantitative     | Frequency of “you” in an email                    |
+| word_freq_credit           | Quantitative     | Frequency of “credit” in an email                 |
+| word_freq_your             | Quantitative     | Frequency of “your” in an email                   |
+| word_freq_font             | Quantitative     | Frequency of “font” in an email                   |
+| word_freq_000              | Quantitative     | Frequency of “000” in an email                    |
+| word_freq_money            | Quantitative     | Frequency of “money” in an email                  |
+| word_freq_hp               | Quantitative     | Frequency of “hp” in an email                     |
+| word_freq_hpl              | Quantitative     | Frequency of “hpl” in an email                    |
+| word_freq_george           | Quantitative     | Frequency of “george” in an email                 |
+| word_freq_650              | Quantitative     | Frequency of “650” in an email                    |
+| word_freq_lab              | Quantitative     | Frequency of “lab” in an email                    |
+| word_freq_labs             | Quantitative     | Frequency of “labs” in an email                   |
+| word_freq_telnet           | Quantitative     | Frequency of “telnet” in an email                 |
+| word_freq_857              | Quantitative     | Frequency of “857” in an email                    |
+| word_freq_data             | Quantitative     | Frequency of “data” in an email                   |
+| word_freq_415              | Quantitative     | Frequency of “415” in an email                    |
+| word_freq_85               | Quantitative     | Frequency of “85” in an email                     |
+| word_freq_technology       | Quantitative     | Frequency of “technology” in an email             |
+| word_freq_1999             | Quantitative     | Frequency of “1999” in an email                   |
+| word_freq_parts            | Quantitative     | Frequency of “parts” in an email                  |
+| word_freq_pm               | Quantitative     | Frequency of “pm” in an email                     |
+| word_freq_direct           | Quantitative     | Frequency of “direct” in an email                 |
+| word_freq_cs               | Quantitative     | Frequency of “cs” in an email                     |
+| word_freq_meeting          | Quantitative     | Frequency of “meeting” in an email                |
+| word_freq_original         | Quantitative     | Frequency of “original” in an email               |
+| word_freq_project          | Quantitative     | Frequency of “project” in an email                |
+| word_freq_re               | Quantitative     | Frequency of “re” in an email                     |
+| word_freq_edu              | Quantitative     | Frequency of “edu” in an email                    |
+| word_freq_table            | Quantitative     | Frequency of “table” in an email                  |
+| word_freq_conference       | Quantitative     | Frequency of “conference” in an email             |
+| char_freq_;                | Quantitative     | Frequency of “;” in an email                      |
+| char_freq_(                | Quantitative     | Frequency of “(” in an email                      |
+| char_freq_[                | Quantitative     | Frequency of “[” in an email                      |
+| char_freq_!                | Quantitative     | Frequency of “!” in an email                      |
+| char_freq_$                | Quantitative     | Frequency of “&” in an email                      |
+| char_freq_#                | Quantitative     | Frequency of “#” in an email                      |
+| capital_run_length_avg     | Quantitative     | Average of sequential capitals in an email        |
+| capital_run_length_long    | Quantitative     | Longest length of sequential capitals in an email |
+| capital_run_length_tot     | Quantitative     | Total length of sequential capitals in an email   |
+
+### Table 2.3 Outline of Data Analyses Methodology
+
+| **Analysis Step** | **Objective and Outcome**                   |
+| ------------------| ------------------------------------------- |
+|  Factor Reduction | Choosing features to keep and discard.      |
+|  Explanatory      | Basic analyses of the dataset.              |
+|  Sampling         | Explaining stratified sampling in-context.  |
+|  Regression       | Linear and Logistic modelling.              |
+|  Decision-tree    | Decision-making with pruning.               |
+|  Thresholds       | Optimal threshold to find best accuracy.    |
+|  CV               | Enhance prediction capabilities (k-folds).  |
+|  UCalgary Example | Accuracy of our modelling in real example.  |
+
+\newpage
+
+## Section III: Explanatory Data Analysis
+
+### Library Repository and Spam E-mail Dataset
+
+The analysis begins by importing all imperative libraries and the Spam
+E-mail dataset.
+
+```{r}
+library(AppliedPredictiveModeling)
+library(boot)
+library(car)
+library(caret)
+library(dplyr)
+library(energy)
+library(ggplot2)
+library(gridExtra)
+library(ISLR)
+library(kernlab)
+library(MASS)
+library(QuantPsyc)
+library(readxl)
+library(rpart)
+library(rpart.plot)
+library(sampling)
+library(survey)
+library(tree)
+library(tidyr)
+```
+
+```{r}
+data(spam)
+
+Email = spam
+Email = Email %>% rename("spam" = "type")
+
+set.seed(2023)
+samplingframe = sampling::strata(Email, stratanames = c("spam"), 
+                                 size =c(1360,2091), method = "srswor")
+
+train_data = Email[samplingframe$ID_unit,]
+test_data = Email[-samplingframe$ID_unit,]
+```
+
+\newpage
+
+To get a quick and easy illustration of of the current predictors, a
+correlation matrix was constructed to better understand these
+pre-analysis relationships.
+
+To see the collinearity amongst the variables, the following correlation
+matrix will display the relationships amongst the features.
+
+
+```{r}
+correlation_matrix <- cor(Email[-58])
+
+correlation_df <- as.data.frame(as.table(correlation_matrix))
+names(correlation_df) <- c("Var1", "Var2", "Correlation")
+
+
+ggplot(data = correlation_df, aes(x = Var1, y = Var2, fill = Correlation)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", 
+                       midpoint = 0) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.01, hjust = 0.3, 
+                                   size = 8),  # Adjust size here
+        axis.text.y = element_text(size = 5),  # Adjust size here
+        plot.title = element_text(size = 12)) +  # Adjust title size
+  labs(title = "Correlation Heatmap of Features")
+```
+
+This correlation matrix provides an example illustration of the potential
+positive and negative relationships within the Spam E-mail dataset.
+
+In later sections of this report we will test for potential multi-collinearity
+using VIF metrics (keeping this correlation matrix in mind).
+
+\newpage
+
+## Section IV: Factor Reduction
+
+Here the analysis uses a slightly transformed version of the original
+Spam E-mail dataset (namely changed column names). This section
+also uses the stratified sampling method for dataset train-test splitting.
+
+```{r}
+Email <- read.csv('spambase.data',header = FALSE, 
+                  col.names=c("word_freq_make","word_freq_address",
+                              "word_freq_all","word_freq_3d","word_freq_our",
+                              "word_freq_over","word_freq_remove",
+                              "word_freq_internet","word_freq_order",
+                              "word_freq_mail","word_freq_receive",
+                              "word_freq_will","word_freq_people",
+                              "word_freq_report","word_freq_addresses",
+                              "word_freq_free","word_freq_business",
+                              "word_freq_email","word_freq_you",
+                              "word_freq_credit","word_freq_your",
+                              "word_freq_font","word_freq_000",
+                              "word_freq_money","word_freq_hp","word_freq_hpl",
+                              "word_freq_george","word_freq_650",
+                              "word_freq_lab","word_freq_labs",
+                              "word_freq_telnet","word_freq_857",
+                              "word_freq_data","word_freq_415","word_freq_85",
+                              "word_freq_technology","word_freq_1999",
+                              "word_freq_parts","word_freq_pm",
+                              "word_freq_direct","word_freq_cs",
+                              "word_freq_meeting","word_freq_original",
+                              "word_freq_project","word_freq_re",
+                              "word_freq_edu","word_freq_table",
+                              "word_freq_conference","char_freq_;",
+                              "char_freq_(","char_freq_[","char_freq_!",
+                              "char_freq_$","char_freq_#",
+                              "capital_run_length_average",
+                              "capital_run_length_longest",
+                              "capital_run_length_total","spam"),
+                  na.strings = c("NA", "", " ", "999"))
+
+set.seed(2023)
+samplingframe = sampling::strata(Email, stratanames = c("spam"), 
+                                 size =c(1360,2091), method = "srswor")
+train_data = Email[samplingframe$ID_unit,]
+test_data = Email[-samplingframe$ID_unit,]
+```
+
+Before generating the LDA model, the assumptions associated with equality of 
+variances and multivariate normality were tested against to confirm if the 
+training dataset had satisfied them or not. 
+
+### a) Equality of Variances
+
+This assumption was tested using Levene's test to assess the equality of 
+variances for each feature across the groups of spam or non-spam e-mails. 
+The e-mail dataset has 57 features, in order to test this statistic it was 
+required to iterate through each feature while performing the Levene's test 
+for the groups of spam e-mails and non-spam e-mails. The hypothesis test is 
+denoted by the following:
+
+
+\[H_0: \sigma_1^2 = \sigma_2^2 = \cdots = \sigma_k^2\]
+
+\[H_A:  \sigma_i^2 \neq \sigma_j^2 \; \text{for at least one pair} \; (i,j)\]
+
+
+``` {r assumptionsVariance}
+
+set.seed(2023)
+
+sigLevel = 0.05
+
+varianceResults = sapply(names(train_data)[names(train_data) != "spam"], function(var_name) {
+  formula = as.formula(paste(var_name, "~ factor(spam)"))
+  test_result = leveneTest(formula, data = train_data)
+  c(as.numeric(test_result$"Pr(>F)"[1]))
+})
+
+varianceResults = as.data.frame(varianceResults)
+varianceResults$assumptionCheck = varianceResults$varianceResults >= sigLevel
+varianceResults
+
+varianceCheck = filter(varianceResults, assumptionCheck == TRUE)
+varianceCheck
+```
+
+After analyzing the results associated with the iterative Levene's test, all 
+but 3 features passed the test of equality of variances. The only variables 
+that show no evidence against the null hypothesis of had equal variances 
+between spam e-mails and non-spam e-mails was word_freq_address, word_freq_you, 
+and word_freq_parts. The remaining 55 features all showed significant evidence 
+against the null hypothesis, indicating that there is not equal variance 
+between the spam e-mails and non-spam e-mail groups. 
+
+### b) Mardia's Hypothesis Test
+
+The multivariate normality test was performed using both the Mardia's test and 
+the Energy test.
+
+Skewness:
+
+\(H_0\): Multivariate normality.
+
+\(H_A\): Deviates from multivariate normality.
+
+
+Kurtosis:
+
+\(H_0\): Multivariate normality.
+
+\(H_A\): Deviates from multivariate normality.
+
+
+``` {r assumptionsMultiNorm1}
+
+set.seed(2023)
+
+mult.norm(test_data)$mult.test
+```
+
+The Mardia's hypothesis test yielded a p-value of 0 for both skewness and 
+kurtosis which indicates that there is strong evidence to reject the null 
+hypothesis indicating that the dataset doesn't follow a multivariate normal 
+distribution. 
+
+
+### c) Energy Hypothesis Test
+
+\(H_0\): Multivariate normality.
+
+\(H_A\): Deviates from multivariate normality.
+
+
+```{r assumtionsMultiNorm2}
+
+set.seed(2023)
+
+mvnorm.etest(test_data, R=100)
+```
+
+The Energy hypothesis test yielded a p-value of 2.2e-16 which also indicates 
+that there is strong evidence to reject the null hypothesis indicating that the 
+dataset doesn't follow a multivariate normal distribution.
+
+
+The performance or validity of the LDA model could be compromised using this 
+dataset, which predominately demonstrates non-normal multivariate distribution 
+and non-equal variance between spam e-mails and non-spam e-mails. Despite the 
+compromised performance or validity due to inability to satisfy the required 
+assumptions, the LDA model was developed in order to observe it's 
+mis-classification rate. The LDA model was trained using the previously 
+extracted stratified sample of the training data set. Following the training, 
+the LDA model was then tested using the testing dataset where the 
+mis-classification rates and confusion matrix were generated.
+
+### d) Linear Discriminant Analysis (LDA)
+
+``` {r LDA}
+
+set.seed(2023)
+
+modelFullLDA = lda(spam~.,
+                   data = train_data)
+
+modelLDAPredict = predict(modelFullLDA, test_data)
+
+actualResults = test_data$spam
+testSize = length(actualResults)
+
+table(modelLDAPredict$class, actualResults)
+
+incorrectPredictionsLDA = sum(modelLDAPredict$class != actualResults)
+
+misClassRateLDA = incorrectPredictionsLDA / testSize
+
+paste("The total missclassification rate for LDA was:",
+      round(misClassRateLDA,4))
+```
+
+The full LDA model achieved a mis-classification rate of 11.13%, correctly 
+classifying 1022 out of 1150 e-mails and mis-classifying 128, with 94 false 
+positives and 34 false negatives. In an attempt to optimize the LDA model, 
+an analysis was performed to determine the most impactful features through 
+the use of their respective absolute linear discriminate coefficients.
+
+This optimization effort required the generation of iterative LD1 filter 
+thresholds to refine feature selection. For each threshold, a new LDA model 
+was developed, and its performance with respect to mis-classification was 
+analyzed to determine if the models performance increased or decreased. The 
+mis-classification results associated with each LD1 filter threshold were 
+recorded to gauge the effectiveness of isolating only the critical features. 
+
+
+```{r reducedLDA}
+
+set.seed(2023)
+
+coefLDA = coef(modelFullLDA)
+
+df_coef = as.data.frame(coefLDA)
+
+df_coef$absLD1 = abs(df_coef$LD1)
+
+df_coef$Variable = rownames(df_coef)
+df_coef
+
+ld1Filters = seq(0.00001, 0.95, by=0.05)
+
+df_Results = data.frame(
+  LD1_Filter = numeric(),
+  misclassRate = numeric()
+)
+
+for (LD1_Filter in ld1Filters) {
+  
+  df_Filter = subset(df_coef, absLD1 >= LD1_Filter)
+  
+  variablesReduc = c(df_Filter$Variable, "spam")
+  
+  trainReduc = train_data[, variablesReduc]
+  testReduc = test_data[, variablesReduc]
+  
+  modelReducLDA = lda(spam ~ ., data=trainReduc)
+  
+  modelLDAReducPredict = predict(modelReducLDA, testReduc)
+  
+  incorrectPredictionsReducLDA = sum(modelLDAReducPredict$class != testReduc$spam)
+  misClassRateReducLDA = incorrectPredictionsReducLDA / length(testReduc$spam)
+  
+  df_Results = rbind(df_Results, data.frame(LD1_Filter = LD1_Filter, 
+                                          misclassRate = misClassRateReducLDA))
+}
+
+df_Results
+
+ggplot(df_Results, aes(x = as.factor(LD1_Filter), y = misclassRate)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Misclassification Rate vs LD1 Filter Thresholds",
+       x = "LD1 Filter Threshold",
+       y = "Misclassification Rate") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+The mis=classification rate by LD1 Filter Threshold figure clearly indicates a 
+decrease in mis-classification results as the LDA model was reduced to only 
+include LD1 coefficients greater than the LD1 Filter Threshold. For example, 
+a LD1 Filter Threshold of 1e-05 included all features which resulted in a 
+mis-classification rate of 0.1113, whereas the  LD1 Filter Threshold of 0.90001 
+resulted in a mis-classification rate of 0.3226. This indicates a decline in 
+model performance as less impactful features are filtered out. These results 
+clearly demonstrate that the full LDA model outperforms the various reduced 
+LDA models in classifying e-mails as either spam or non-spam.
+
+\newpage
+
+## Section V: Stratified Sampling and Regression Modelling
+
+### a) Stratified Sampling 
+
+This section of the report will utilize stratified sampling to ensure that 
+both spam and non-spam e-mails are represented appropriately within both the 
+training and test datasets, which can help improve the performance of 
+predictive models. 
+
+
+```{r}
+Email <- read.csv('spambase.data',header = FALSE, 
+                  col.names=c("word_freq_make","word_freq_address",
+                              "word_freq_all","word_freq_3d","word_freq_our",
+                              "word_freq_over","word_freq_remove",
+                              "word_freq_internet","word_freq_order",
+                              "word_freq_mail","word_freq_receive",
+                              "word_freq_will","word_freq_people",
+                              "word_freq_report","word_freq_addresses",
+                              "word_freq_free","word_freq_business",
+                              "word_freq_email","word_freq_you",
+                              "word_freq_credit","word_freq_your",
+                              "word_freq_font","word_freq_000",
+                              "word_freq_money","word_freq_hp","word_freq_hpl",
+                              "word_freq_george","word_freq_650",
+                              "word_freq_lab","word_freq_labs",
+                              "word_freq_telnet","word_freq_857",
+                              "word_freq_data","word_freq_415","word_freq_85",
+                              "word_freq_technology","word_freq_1999",
+                              "word_freq_parts","word_freq_pm",
+                              "word_freq_direct","word_freq_cs",
+                              "word_freq_meeting","word_freq_original",
+                              "word_freq_project","word_freq_re",
+                              "word_freq_edu","word_freq_table",
+                              "word_freq_conference","char_freq_;",
+                              "char_freq_(","char_freq_[","char_freq_!",
+                              "char_freq_$","char_freq_#",
+                              "capital_run_length_average",
+                              "capital_run_length_longest",
+                              "capital_run_length_total","spam"),
+                  na.strings = c("NA", "", " ", "999"))
+
+set.seed(2023)
+samplingframe = sampling::strata(Email, stratanames = c("spam"), size =c(1360,2091), method = "srswor")
+train_data = Email[samplingframe$ID_unit,]
+test_data = Email[-samplingframe$ID_unit,]
+```
+
+### b) Logistic Regression
+
+First, a logistic regression model will be applied on all predictor variables. 
+
+
+```{r}
+logistic_e_model = suppressWarnings(glm(spam ~ .,family = "binomial", 
+                                        data = train_data))
+summary(logistic_e_model)
+```
+
+
+Checking for Multi-collinearity - Checking the condition of multicollinearity 
+using VIF.
+
+
+```{r}
+vif_values <- vif(logistic_e_model)
+print(vif_values)
+```
+
+It is evident that there is no multi-collinearity present in the data as all 
+VIF values are less than 5 for all variables. 
+
+```{r}
+summary(logistic_e_model)
+```
+
+
+Testing the model using the testing dataset.
+
+```{r}
+pred =predict(logistic_e_model, test_data, type="response")
+predict_logistic = rep(0,dim(test_data)[1])
+predict_logistic[pred>=0.5] = 1
+Actual = test_data$spam
+table(predict_logistic, Actual)
+```
+
+Calculating the mis-classification error rate.
+
+```{r}
+print("Misclassification rate:")
+misclassification_rate_logistic_1=mean(predict_logistic != Actual)
+misclassification_rate_logistic_1
+```
+
+This means that about 7.83% of the predictions were incorrect.
+
+The accuracy rate is then calculated.
+
+```{r}
+print("Accuracy rate:")
+accuracy_rate_1 = 1-misclassification_rate_logistic_1
+accuracy_rate_1
+```
+
+```{r}
+print("Percent Correct for nonspam and spam:")
+tt = table(predict_logistic, test_data$spam)
+diag(prop.table(tt,1))
+```
+
+### c) Assumptions Testing
+
+Linearity Assumption 
+
+
+```{r}
+probabilities= predict(logistic_e_model, type = "response")
+predicted.classes = ifelse(probabilities >0.5, 1, 0)
+head(predicted.classes)
+```
+
+
+
+```{r}
+my_data = train_data %>%
+  dplyr::select_if(is.numeric)
+predictors = colnames(my_data)
+
+my_data = my_data %>%
+  mutate(logit = log(probabilities/(1-probabilities))) %>%
+  gather(key ="predictors", value = "predictor.value", -logit)
+```
+
+
+```{r}
+ggplot(my_data, aes(logit, predictor.value)) +
+  geom_point(size = 0.5, alpha =0.5) +
+  geom_smooth(method = "loess") +
+  theme_bw() + 
+  facet_wrap(~predictors, scales = "free_y")
+```
+
+
+It seems that the majority of predictor variables do not exhibit a linear 
+relationship with the spam outcome on the logit scale. This suggests that 
+they do not meet the linearity assumption of the logistic regression model. 
+To address this issue, transformations or alternative modeling approaches may 
+be necessary to better capture the underlying relationship between the 
+predictors and the outcome variable
+
+
+```{r}
+spam_data <- subset(my_data, predictors == "spam")
+ggplot(spam_data, aes(logit, predictor.value)) +
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess") +
+  theme_bw() + 
+  ggtitle("Predictor: spam") +
+  labs(x = "Logit", y = "Predictor Value")
+```
+
+Influential Values - Cooks distance 
+
+```{r}
+plot(logistic_e_model, which = 4, id.n = 3)
+```
+
+Given that the Cook's distance for 1186 point is 2.5, which exceeds the 
+typical threshold of 1 for identifying influential observations, it suggests 
+that this point may be an outlier with a substantial impact on the regression 
+results. As such, it's prudent to consider removing it from the dataset. 
+However, before making a final decision, it's essential to conduct a thorough 
+analysis to assess the robustness of the regression results, evaluate the 
+quality of the data associated with the observation, and consider any 
+substantive reasons for its retention or removal. Ultimately, based on these 
+considerations, removing the outlier may lead to more stable and reliable 
+regression estimates.
+
+
+### d) Reduced Logistic Regression Model 
+
+
+Fitting model using only the significant variables (at a significance of 0.05).
+
+```{r}
+logistic_e_model_2 = glm(spam ~ word_freq_make+word_freq_address+word_freq_our+
+                           word_freq_over+word_freq_remove+word_freq_internet+
+                           word_freq_will+word_freq_free+word_freq_business+
+                           word_freq_credit+word_freq_your+word_freq_000+
+                           word_freq_money+word_freq_hp+word_freq_hpl+
+                           word_freq_george+word_freq_650+word_freq_data+
+                           word_freq_technology+word_freq_pm+word_freq_meeting+
+                           word_freq_project+word_freq_re+word_freq_edu+
+                           word_freq_conference+char_freq_..3+char_freq_..4+
+                           char_freq_..5+capital_run_length_average+
+                           capital_run_length_total ,family = "binomial", 
+                         data = train_data)
+summary(logistic_e_model_2)
+```
+
+Testing the reduced model on the testing data.
+
+```{r}
+pred =predict(logistic_e_model_2, test_data, type="response")
+predict_logistic_2 = rep(0,dim(test_data)[1])
+predict_logistic_2[pred>=0.5] = 1
+Actual = test_data$spam
+table(predict_logistic_2, Actual)
+```
+
+
+Re-calculating the mis-classification rate for the second logistic model.
+
+```{r}
+print("Misclassification rate:")
+misclassification_rate_logistic_2 = mean(predict_logistic_2 != Actual)
+misclassification_rate_logistic_2
+```
+
+The mis-classification rate has increased which means that about 8.61% of the 
+predictions were incorrect.
+
+```{r}
+print("Accuracy rate:")
+accuracy_rate_2 = 1-misclassification_rate_logistic_2
+accuracy_rate_2
+```
+
+```{r}
+print("Percent Correct for nonspam and spam:")
+tl = table(predict_logistic_2, test_data$spam)
+diag(prop.table(tl,1))
+```
+
+
+Influential Values - Cook's distance of the reduced logistic regression model.
+
+```{r}
+plot(logistic_e_model_2, which = 4, id.n = 3)
+```
+
+The Cook's distance value of 0.4 for the highest point falls below the commonly 
+used threshold of 0.5. As such, it may not be considered highly influential 
+according to this criterion, and further investigation may not be warranted.
+
+
+Multi-colinearity - Checking VIF values for the reduced logistic regression
+model.
+
+```{r}
+vif_values_2 <- vif(logistic_e_model_2)
+print(vif_values_2)
+```
+
+It is evident that there is no multi-collinearity present in the data 
+as all VIF values are less than 5 for all variables. 
+
+It is advisable to utilize the original logistic model that 
+incorporates all predictor variables in the dataset. This model yields a higher 
+accuracy rate compared to the reduced model. Although the reduced model 
+satisfies both the Cook's distance influential values and variance inflation 
+factor (VIF) criteria, the original model only meets the VIF multi-collinearity 
+test. Despite this discrepancy, the original model's superior performance in 
+terms of accuracy outweighs the concerns regarding influential values. 
+
+\newpage
+
+## Section VI: Decision-tree Analyses (Expanded)
+
+This section of the analysis will use a slightly transformed version
+of the original dataset, as found in the cell below.
+
+```{r}
+library(dplyr)
+library(kernlab)
+data(spam)
+
+# re-align dataframe name and column name to work with teammates' dataframe
+Email = spam
+Email = Email %>% rename("spam" = "type")
+
+# sampling from Mohammed 
+set.seed(2023)
+library(sampling)
+samplingframe = sampling::strata(Email, stratanames = c("spam"), 
+                                 size =c(1360,2091), method = "srswor")
+train_data = Email[samplingframe$ID_unit,]
+test_data = Email[-samplingframe$ID_unit,]
+```
+
+Decision Tree Analysis (Expanded):
+
+Earlier in the report there was a mention that decision-trees can be used in 
+2 different ways in a classification problem. In this particular case of the 
+spambase dataset, we have 57 predictors or features, and it is difficult to 
+identify the relationship of all predictors with respect to the response 
+variable, which is the classification of spam or nonspam in our case. 
+We can perform a Classification and Regression Trees (CART) analysis using a 
+decision-tree and quickly identify the variables of interest.  
+
+
+### a) Decision Tree
+
+Below is a decision-tree created using the rpart (Recursive Partitioning and 
+Regression Trees) function in R, with cost complexity factor (cp) of 0 and 
+number of cross-validations (xval) set to 10. This allows the tree to grow 
+fully but also employs optimal pruning, which will be discussed further below 
+in the classification-tree analysis. Here only the training dataset is needed
+to develop the tree.
+
+```{r echo=FALSE}
+library(rpart)
+library(rpart.plot)
+library(caret)
+set.seed(2023)
+
+rpart_tree = rpart(factor(spam)~., data=train_data, method="class",
+                   control = rpart.control(xval = 10, cp = 0))
+rpart.plot(rpart_tree)
+```
+
+### b) Importance of Variables
+
+The importance of variables is calculated based on how much each feature 
+contributed to the improvement of the model fit for all decision nodes where 
+the variable is used. This is derived from the amount of entropy decrease at 
+each decision node, which measures how well the split separates different 
+classes. Below is the plot of the respective variables importance organized 
+from high to low.
+
+```{r echo=FALSE, fig.height=6}
+# plot the variables of importance
+library(ggplot2)
+importance <- as.data.frame(varImp(rpart_tree))
+importance$Feature <- rownames(importance)
+importance_sorted <- importance[order(-importance$Overall), ]
+
+ggplot(importance_sorted, aes(x = reorder(Feature, Overall), y = Overall)) +
+  geom_bar(stat = "identity", fill="lightblue") +
+  theme_minimal() + theme(axis.text.y = element_text(size = 8)) +
+  labs(title = "Variables of Importance",
+       x = "Feature" ,
+       y = "Importance Score") +
+  coord_flip() # This flips the axes so the features are on the y-axis, making it easier to read
+```
+
+
+The top 15 variables of importance as identified by the decision-tree are:
+
+```{r echo=FALSE}
+print(importance_sorted[1:15, c("Feature", "Overall")])
+```
+
+We see that the decision-tree identified features such as:
+
+- Frequency of the exclamation mark (!)
+- Frequency of the word "free"
+- Frequency of the dollar sign ($)
+- Frequency of capital letters
+
+This aligns with the typical content found in most spam e-mails, which are often 
+unsolicited advertisements designed to capture the reader's attention through 
+promises of quick wealth and "Get Rich Quick" schemes.
+  
+Below are two example scatter plots. One with two variables of high importance, 
+the other with two variables of low importance.   
+
+```{r echo=FALSE}
+library(gridExtra)
+# plot features
+p1 = ggplot(train_data, aes(x = charExclamation, y = free, 
+                            color = factor(spam))) +
+  geom_point(alpha=0.5) +  scale_color_manual(values = c("nonspam" = "blue", 
+                                                         "spam" = "red")) +
+  labs(title = "Variables with High Importance",
+       x = "\"!\" (Appearance Frequency in %)",
+       y = "\"free\" (Appearance Frequency in %)",
+       color = "Email Type") +
+  theme_minimal() + 
+  theme(legend.position = c(0.95, 0.95), legend.justification = c(1, 1),   
+        legend.box.just = "right",
+        legend.background = element_rect(color = "black", fill = "white", 
+                                         size = 0.5, linetype = "solid")) +
+  scale_x_continuous(limits = c(0, 2)) + # Set x-axis limits
+  scale_y_continuous(limits = c(0, 2))   # Set y-axis limits
+
+p2 = ggplot(train_data, aes(x = conference, y = address, 
+                            color = factor(spam))) +
+  geom_point(alpha=0.5) +  scale_color_manual(values = c("nonspam" = "blue", 
+                                                         "spam" = "red")) +
+  labs(title = "Variables with Low Importance",
+       x = "\"conference\" (Appearance Frequency in %)",
+       y = "\"address\" (Appearance Frequency in %)",
+       color = "Email Type") +
+  theme_minimal() +
+  theme(legend.position = c(0.95, 0.95), legend.justification = c(1, 1),
+        legend.box.just = "right",
+        legend.background = element_rect(color = "black", fill = "white", 
+                                         size = 0.5, linetype = "solid")) +
+  scale_x_continuous(limits = c(0, 2)) + # Set x-axis limits
+  scale_y_continuous(limits = c(0, 2))   # Set y-axis limits
+
+grid.arrange(p1,p2, nrow = 1)
+
+```
+
+We observe that the two highly important variables, "free" and "!", frequently 
+co-occur in spam e-mails. In contrast, the two variables of lower importance, 
+"address" and "conference", seldom appear together, contributing to their 
+reduced significance as assessed by the model.
+
+\newpage
+
+## Classification Tree to classify Spam
+
+In this section, the decision-tree is used to classify if the e-mail 
+in the Spambase dataset is spam or not. The procedure is highlighted in the 
+following:
+
+1. **Training a tree model**: Use the training set to train a classification 
+tree model.
+2. **Compute accuracy of the tree model**: Apply the model to the testing set 
+and observe the mis-classification rate on this tree model.
+3. **Prune tree to address over-fitting**: Observe cross validation errors in 
+the full tree model and prune the tree to address for potential over fitting.
+4. **Compare accuracy of pruned tree model**: Apply the pruned tree to the 
+testing set, and compare the mis-classification rate. 
+5. **Further remarks on performance metric**: Compare various performance 
+metrics beyond the mis-classification rate.
+
+### c) Training a Tree Model 
+
+Below is a less complicated tree model fitted using the training data.
+
+Usage of the cost complexity factor (cp) of 0.003 in this part is essential 
+to get a less complicated tree from the rpart() function.
+
+```{r echo=FALSE}
+library(rpart)
+full_tree_model = rpart(factor(spam)~., data=train_data,
+                        method="class", cp=0.003)
+```
+
+```{r echo=TRUE}
+
+```
+<!-- -->
+
+```{r echo=FALSE}
+library(rpart.plot)
+rpart.plot(full_tree_model) 
+```
+```{r echo=FALSE}
+printcp(full_tree_model)
+```
+
+The classification tree identified the frequency of the dollar sign ($) at 
+the top of the tree. Additional factors, such as:
+
+- Frequent appearance of the exclamation mark (!)
+- Sum of capital letters
+- Sequence length of consecutive capital letters
+- Frequent appearance of the word "free"
+
+Again. all features aligned with the common tactics that spam e-mails employ. 
+
+Remember, spam e-mails are often aiming to grab the reader's attention.
+
+
+### d) Accuracy of the Full Tree Model
+
+To test the accuracy of this model it will be applied on the test set 
+as defined earlier.
+
+```{r echo=FALSE}
+full_tree_prediction = predict(full_tree_model, test_data, type="class")
+confusion_matrix_1 = table(full_tree_prediction, factor(test_data$spam))
+confusion_matrix_1
+error_rate_1 = ((confusion_matrix_1["spam","nonspam"] + 
+                   confusion_matrix_1["nonspam","spam"]) /
+sum(confusion_matrix_1))
+error_rate_1
+```
+
+We find that the mis-classification rate is `r round(error_rate_1*100,2)` \%, 
+that means the accuracy of our full tree model applied on the **test** 
+set is `r round((1-error_rate_1)*100,2)` \%.
+
+### e) Pruning full tree to address for over-fitting
+
+One of the main disadvantages of decision-tree is that complex trees are prone
+to over-fitting. Over-fitting will bring great accuracy in the training set,
+but not in the testing or new unseen data (since it is more specific and 
+not as adaptive to newly observable data). To check the cross 
+validation errors in the full tree model, will aid in the pruning process
+of the trees to address for potential over-fitting concerns.
+
+```{r echo=FALSE}
+plotcp(full_tree_model)
+```
+
+From the above cross-validation error chart, it is inferred that to find the 
+"best" size of the tree, increasing the number of terminal nodes does not 
+result in a significant decrease of cross-validation error. 
+
+Using the "elbow" point at 8 number of terminal nodes (cp of around 0.01) to 
+prune the tree will allow the model to accept a slightly larger error in 
+exchange for a less complicated model that hopefully could generalize 
+better to unseen data. 
+
+
+### f) Comparing accuracy of the pruned tree model.
+```{r echo=FALSE}
+pruned_tree_model = prune(full_tree_model, cp=0.01)
+rpart.plot(pruned_tree_model) 
+# plot(pruned_tree_model)
+# text(pruned_tree_model, pretty=0, cex=0.8)
+# summary(pruned_tree_model)
+```
+
+```{r echo=FALSE}
+pruned_tree_prediction = predict(pruned_tree_model, test_data, type="class")
+confusion_matrix_2 = table(pruned_tree_prediction, test_data$spam)
+confusion_matrix_2
+
+error_rate_2 = ((confusion_matrix_2["spam","nonspam"] + 
+            confusion_matrix_2["nonspam","spam"]) / sum(confusion_matrix_2))
+error_rate_2
+```
+
+The mis-classification rate of the pruned tree is now increased to
+`r round(error_rate_2*100,2)` \%, or an accuracy rate of 
+`r round((1-error_rate_2)*100,2)` \% on the **test** set. Therefore, 
+in pruning our tree model, we have sacrificed a slightly lower accuracy rate 
+for a better fit in the testing set and hopefully also in any unseen data as 
+well. 
+
+
+### g) Remarks on Model Performance Metric
+
+There are different key metrics for measuring performances of classification 
+models. 
+
+In terms of the confusion matrix presented in the output for the aforementioned
+modeling:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+  &  Actual nonspam & Actual spam \\
+\hline
+Predicted nonspam & True Negatives (TN) & False Negatives (FN) \\  \hline
+Predicted spam & False Positives (FP) & True Positives (TP) \\ 
+\hline
+\end{tabular}
+\end{table}
+
+- True Negatives (TN) represents the number of non-spam correctly 
+identified as non-spam.
+- True Positives (TP) represents the number of spam correctly 
+identified as spam.
+- False Negatives (FN) represents the number of spam **incorrectly** 
+identified as non-spam.
+- False Positives (FP) represents the number of non-spam **incorrectly** 
+identified as spam.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|p{8cm}|}
+\hline
+Metric  &  Calculation  &  User Preference  \\
+\hline
+
+Precision & $\frac{TP}{TP+FP}$ & 
+- High precision means that most e-mails classified as spam are indeed spam. \\  
+ &  & - For users who wants to avoid false positives, i.e. not wanting to 
+ miss any legitimate or possible important e-mails.  \\  \hline
+
+Recall  & $\frac{TP}{TP+FN}$ & 
+- High recall means the model is good at catching spams (i.e. higher 
+sensitivity to spam) \\
+ &  & 
+- For users wanting to filter out as many spam as possible but may be 
+missing out on some legitimate e-mails. (May have to check spam folder 
+occasionally.) \\ 
+\hline
+
+F1 Score  & $2 \times \frac{Precision \times Recall}{Precision + Recall}$ & 
+- Provide a balance metric between catching as many spam as possible and
+minimizing misclassification. \\
+ &  & 
+ \\ \hline
+ 
+Accuracy  & $\frac{TP+TN}{TP+TN+FP+FN}$ & 
+- General performance measure, the opposite of misclassification rate. \\
+ &  & 
+ \\ 
+\hline
+\end{tabular}
+\end{table}
+
+
+Below is the performance metrics for the full and pruned tree model.
+
+```{r echo=FALSE}
+
+TP_1 = confusion_matrix_1["spam","spam"]
+TN_1 = confusion_matrix_1["nonspam","nonspam"]
+FP_1 = confusion_matrix_1["spam","nonspam"]
+FN_1 = confusion_matrix_1["nonspam","spam"]
+
+Tree_Precision_1 = round(100*TP_1 / (TP_1+FP_1),2)
+Tree_Recall_1 = round(100*TP_1 / (TP_1+FN_1),2)
+Tree_F1_1 = round(2*(Tree_Precision_1*Tree_Recall_1)/(Tree_Precision_1+
+                                                        Tree_Recall_1),2)
+Tree_Accuracy_1 = round(100*(TP_1+TN_1) / (TP_1+TN_1+FP_1+FN_1),2)
+
+
+TP_2 = confusion_matrix_2["spam","spam"]
+TN_2 = confusion_matrix_2["nonspam","nonspam"]
+FP_2 = confusion_matrix_2["spam","nonspam"]
+FN_2 = confusion_matrix_2["nonspam","spam"]
+
+
+Tree_Precision_2 = round(100*TP_2 / (TP_2+FP_2),2)
+Tree_Recall_2 = round(100*TP_2 / (TP_2+FN_2),2)
+Tree_F1_2 = round(2*(Tree_Precision_2*Tree_Recall_2)/(Tree_Precision_2+
+                                                        Tree_Recall_2),2)
+Tree_Accuracy_2 = round(100*(TP_2+TN_2) / (TP_2+TN_2+FP_2+FN_2),2)
+```
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+Metric  &  1. Full Tree Model  &  2. Pruned Tree Model  \\
+\hline
+
+Precision 
+& `r Tree_Precision_1` \%
+& `r Tree_Precision_2` \%
+\\ \hline
+
+Recall  
+& `r Tree_Recall_1` \% 
+& `r Tree_Recall_2` \%
+\\ \hline
+
+F1 Score
+& `r Tree_F1_1` \%
+& `r Tree_F1_2` \%
+\\ \hline
+ 
+Accuracy  
+& `r Tree_Accuracy_1` \% 
+& `r Tree_Accuracy_2` \%  
+\\ \hline
+ 
+\end{tabular}
+\end{table}
+
+\newpage
+
+Generally, measuring the performance of these models using accuracy, illustrates
+the opposite effect of the mis-classification rate. 
+
+However, depending on user preference, one can choose the model that would 
+best yield different metrics. 
+
+From the above table and considered performance metrics, it is evident that the 
+pruned tree has made a slight trade-off in all metrics in exchange for the 
+ability to perform well on new, unseen data.
+
+\newpage
+
+## Section VII: Prediction Accuracy Maximization Function
+
+The spamPredictor() function uses only the ‘your’ feature from the spam dataset 
+to predict spam v. non-spam. spamPredictor() finds the optimal threshold to 
+maximize accuracy using only this feature [3].
+
+```{r}
+spamPredictor <- function(spam){
+  vals = seq(0,11.1,by=0.1)
+  optimal_pos=optimal_neg=optimal_acc=pos=neg=acc_loc=0
+  ns_vals=ns_sensitivity=ns_specificity=accuracy=s_vals=steps=double()
+  
+  for(i in vals){
+    prediction <- ifelse(spam$your > i, "spam", "nonspam")
+    x <- table(prediction, spam$type)/length(spam$type)
+    ns <- x[1,1] / (x[1,1] + x[1,2])
+    ns_sens <- x[1,1] / (x[1,1] + x[2,1])
+    ns_spec <- x[2,2] / (x[1,2] + x[2,2])
+    ns_vals <- c(ns_vals, ns)
+    ns_sensitivity <-c(ns_sensitivity, ns_sens)
+    ns_specificity <-c(ns_specificity, ns_spec)
+    steps = c(steps, i)
+    if(ns > pos){
+      pos = ns
+      optimal_pos = i
+    }
+    s <- x[2,2] / (x[2,1] + x[2,2])
+    if(s > neg){
+      neg = s
+      optimal_neg = i
+    }
+    acc = (x[1,1] + x[2,2]) / sum(x)
+    if(acc > optimal_acc){
+      optimal_acc = acc
+      optimal_loc = i
+    }
+    s_vals <- c(s_vals, s)
+    accuracy <- c(accuracy,acc)
+  }
+
+  plot(steps, ns_vals, xlab = "Number of 'your' occurrences",type='l',
+       col=2, ylim = c(0,1), main = "Positive and negative predictive power", 
+       ylab="" )
+  lines(steps, s_vals, col=3)
+  lines(steps, accuracy, col=4)
+  legend(0.4,1,c("Positive predictive value", "Negative predictive value", 
+                 "Accuracy"), col=c(2,3,4), lty=c(1,1), cex =0.7)
+  plot(1 - ns_specificity, ns_sensitivity, col="green", type='l', 
+       ylim = c(0,1),
+       xlab = "1 - specificity", ylab = "Sensitivity", main = "ROC")
+  points(steps, steps)
+
+  z = list("optimal_pos_loc" = optimal_pos, "optimal_pos_val" = pos, 
+           "optimal_neg_loc" = optimal_neg, "optimal_neg_val" = neg, 
+           "optimal_acc_loc" = optimal_loc, "optimal_acc_val" = optimal_acc)
+  return(z)
+}
+results = spamPredictor(spam)
+results
+```
+
+This analysis shows that for the number of occurrences of the 'Your' feature 
+in the e-mail, we can achieve a spam v. non-spam accuracy of 75.7% by using a 
+threshold value of 0.6 [3].
+
+\newpage
+
+## Section IX: K-folds Cross Validation Comparison (Stratified)
+
+The following section uses a slightly modified version of the previous
+section's Spam E-mail Dataset.
+
+```{r}
+data(spam)
+
+Email = spam
+Email = Email %>% rename("spam" = "type")
+
+set.seed(2023)
+samplingframe = sampling::strata(Email, stratanames = c("spam"), 
+                                 size =c(1360,2091), method = "srswor")
+
+train_data = Email[samplingframe$ID_unit,]
+test_data = Email[-samplingframe$ID_unit,]
+```
+
+Next the following cells will test the following models using k-folds Cross 
+Validation, specifically for:
+
+a) Classification-tree Modelling
+b) Linear Discriminant Analysis (LDA)
+c) Linear Regression
+d) Logistic Regression
+e) Decision-tree Modelling
+
+With regards to the classification-tree and LDA models, the models will be 
+predicting the variable of interest (Type) using all the predictors 
+(as mentioned in the opening section of this report - 'Factor Reduction').
+
+### a) Classification-tree and LDA (Type)
+
+```{r}
+set.seed(10)
+folds<-createFolds(spam$type, k=10)
+
+msc_lda = msc_ctr = numeric(10)
+
+set.seed(2023)
+suppressWarnings(for (i in 1:length(folds)) {
+  train_df = spam[folds[[i]],]
+  test_df = spam[-folds[[i]],]
+  
+  fit_ctr=tree(type~., data=train_df)
+  pred_ctr=predict(fit_ctr, newdata=test_df, type="class")
+  
+  msc_ctr[i] = mean(pred_ctr!=test_df$type)
+  
+  fit_lda=lda(type~., data=train_df)
+  pred_lda=predict(fit_lda, newdata=test_df)$class
+  
+  msc_lda[i] = mean(pred_lda!=test_df$type)
+})
+
+set.seed(2023)
+
+cat("Misclassification Error Rate (Type Classification-tree): ", 
+    mean(msc_ctr), "\n")
+cat("Misclassification Error Rate (Type LDA): ", mean(msc_lda), "\n")
+
+plot(msc_ctr, type="l",col="green", lwd=5, xlab="Fold Xn", 
+     ylab="MSC Classification Tree", 
+     main="Change in MSC of Classification Tree (Type)")
+plot(msc_lda, type="l", col="red", lwd=5, xlab="Fold Xn", 
+     ylab="MSC LDA", main="Change in MSC of LDA (Type)")
+```
+
+From the analysis it is observable that the average mis-classification error 
+rate in this particular case for the prediction of the 'Type' variable is best
+fitted to the LDA model (with a MSC error rate of 0.1204328).
+
+NOTE: In this first use-case the RMSE calculations are not applicable in
+the case of classification predictors (they will result in NA). An emphasis
+should be placed on using the mis-classification error rate to select the best
+model.
+
+The LDA model will be selected in this case.
+
+### b) Linear Regression, Decision-tree, Logistic Regression (Credit)
+
+In this section, the analyses will also include linear regression.
+
+Although we have already concluded this will not be an effective model
+methodology for displaying the dataset, it was included anyways to help
+illustrate a holistic approach to modelling.
+
+The first case will test the prediction accuracy of the linear regression,
+logistic regression, and decision-tree models with respect to predicting
+the 'Credit' variable.
+
+```{r}
+set.seed(10)
+folds<-createFolds(spam$credit, k=10)
+
+rmse_glm = rmse_lm = rmse_tr = msc_glm = msc_lm = msc_tr = numeric(10)
+
+set.seed(2023)
+suppressWarnings(for (i in 1:length(folds)) {
+  train_df = spam[folds[[i]],]
+  test_df = spam[-folds[[i]],]
+
+  tree_type<-tree(credit~., data=train_df)
+  rings_hat<-predict(tree_type,newdata=test_df)
+  
+  rmse_tr[i] = sqrt(mean((rings_hat-test_df$credit)^2))
+  
+  fit_lm=lm(credit~., data=train_df)
+  pred_lm=predict(fit_lm, newdata=test_df)
+  
+  rmse_lm[i] = sqrt(mean((pred_lm-test_df$credit)^2))
+  
+  fit_glm=glm(credit~., data=train_df)
+  pred_glm=predict(fit_glm, newdata=test_df)
+  
+  rmse_glm[i] = sqrt(mean((pred_glm-test_df$credit)^2))
+  
+  msc_tr[i] = mean(rings_hat!=test_df$credit)
+  
+  msc_lm[i] = mean(pred_lm!=test_df$credit)
+  
+  msc_glm[i] = mean(pred_glm!=test_df$credit)
+})
+
+set.seed(2023)
+
+cat("Misclassification Error Rate (Credit Decision-tree): ", 
+    mean(msc_tr), "\n")
+cat("Misclassification Error Rate (Credit GLM): ", mean(msc_glm), "\n")
+cat("Misclassification Error Rate (Credit LM): ", mean(msc_lm), "\n")
+
+cat("\n")
+
+cat("RMSE (Credit Decision-tree): ", mean(rmse_tr), "\n")
+cat("RMSE (Credit GLM): ", mean(rmse_glm), "\n")
+cat("RMSE (Credit LM): ", mean(rmse_lm), "\n")
+
+plot(rmse_tr, type="l",col="green", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE Decision-tree", 
+     main="Change in RMSE of Decision-tree (Credit)")
+plot(rmse_glm, type="l", col="red", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE GLM", main="Change in RMSE of GLM (Credit)")
+plot(rmse_lm, type="l", col="blue", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE LM", main="Change in RMSE of LM (Credit)")
+```
+  
+From the analysis it is observable that the average RMSE in
+this particular case for the prediction of the 'Credit' variable is best
+fitted to the decision-tree model (with a RMSE of 0.5525356).
+
+NOTE: In this second use-case the RMSE values are the same (~1) so this 
+measure is not particularly useful in finding the distinguish-ability of the 
+three models in terms of accuracy (RMSE should be used to predict the model 
+used, a lower RMSE value entails that the model is more accurate over other 
+options).
+
+The decision-tree model will be selected in this case.
+
+### c) Linear Regression, Decision-tree, Logistic Regression (Make)
+
+The second case will test the prediction accuracy of the linear regression,
+logistic regression, and decision-tree models with respect to predicting
+the 'Make' variable.
+
+```{r}
+set.seed(10)
+folds<-createFolds(spam$make, k=10)
+
+rmse_glm = rmse_lm = rmse_tr = msc_glm = msc_lm = msc_tr = numeric(10)
+
+set.seed(2023)
+suppressWarnings(for (i in 1:length(folds)) {
+  train_df = spam[folds[[i]],]
+  test_df = spam[-folds[[i]],]
+
+  tree_type<-tree(make~., data=train_df)
+  rings_hat<-predict(tree_type,newdata=test_df)
+  
+  rmse_tr[i] = sqrt(mean((rings_hat-test_df$make)^2))
+  
+  fit_lm=lm(make~., data=train_df)
+  pred_lm=predict(fit_lm, newdata=test_df)
+  
+  rmse_lm[i] = sqrt(mean((pred_lm-test_df$make)^2))
+  
+  fit_glm=glm(make~., data=train_df)
+  pred_glm=predict(fit_glm, newdata=test_df)
+  
+  rmse_glm[i] = sqrt(mean((pred_glm-test_df$make)^2))
+  
+  msc_tr[i] = mean(rings_hat!=test_df$make)
+  
+  msc_lm[i] = mean(pred_lm!=test_df$make)
+  
+  msc_glm[i] = mean(pred_glm!=test_df$make)
+})
+
+set.seed(2023)
+
+cat("Misclassification Error Rate (Make Decision-tree): ", mean(msc_tr), "\n")
+cat("Misclassification Error Rate (Make GLM): ", mean(msc_glm), "\n")
+cat("Misclassification Error Rate (Make LM): ", mean(msc_lm), "\n")
+
+cat("\n")
+
+cat("RMSE (Make Decision-tree): ", mean(rmse_tr), "\n")
+cat("RMSE (Make GLM): ", mean(rmse_glm), "\n")
+cat("RMSE (Make LM): ", mean(rmse_lm), "\n")
+
+plot(rmse_tr, type="l",col="green", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE Decision-tree", main="Change in RMSE of Decision-tree (Make)")
+plot(rmse_glm, type="l", col="red", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE GLM", main="Change in RMSE of GLM (Make)")
+plot(rmse_lm, type="l", col="blue", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE LM", main="Change in RMSE of LM (Make)")
+```
+
+From the analysis it is observable that the average RMSE in
+this particular case for the prediction of the 'Make' variable is best
+fitted to the decision-tree model (with a RMSE of 0.3215232).
+
+NOTE: In this third use-case the RMSE values are the same (~1) so this 
+measure is not particularly useful in finding the distinguish-ability of the 
+three models in terms of accuracy (RMSE should be used to predict the model 
+used, a lower RMSE value entails that the model is more accurate over other 
+options).
+
+The decision-tree model will be selected in this case.
+
+### d) Linear Regression, Decision-tree, Logistic Regression (Meeting)
+
+The third case will test the prediction accuracy of the linear regression,
+logistic regression, and decision-tree models with respect to predicting
+the 'Meeting' variable.
+
+```{r}
+set.seed(10)
+folds<-createFolds(spam$meeting, k=10)
+
+rmse_glm = rmse_lm = rmse_tr = msc_glm = msc_lm = msc_tr = numeric(10)
+
+set.seed(2023)
+suppressWarnings(for (i in 1:length(folds)) {
+  train_df = spam[folds[[i]],]
+  test_df = spam[-folds[[i]],]
+
+  tree_type<-tree(meeting~., data=train_df)
+  rings_hat<-predict(tree_type,newdata=test_df)
+  
+  rmse_tr[i] = sqrt(mean((rings_hat-test_df$meeting)^2))
+  
+  fit_lm=lm(meeting~., data=train_df)
+  pred_lm=predict(fit_lm, newdata=test_df)
+  
+  rmse_lm[i] = sqrt(mean((pred_lm-test_df$meeting)^2))
+  
+  fit_glm=glm(credit~., data=train_df)
+  pred_glm=predict(fit_glm, newdata=test_df)
+  
+  rmse_glm[i] = sqrt(mean((pred_glm-test_df$meeting)^2))
+  
+  msc_tr[i] = mean(rings_hat!=test_df$meeting)
+  
+  msc_lm[i] = mean(pred_lm!=test_df$meeting)
+  
+  msc_glm[i] = mean(pred_glm!=test_df$meeting)
+})
+
+set.seed(2023)
+
+cat("Misclassification Error Rate (Meeting Decision-tree): ",
+    mean(msc_tr), "\n")
+cat("Misclassification Error Rate (Meeting GLM): ", mean(msc_glm), "\n")
+cat("Misclassification Error Rate (Meeting LM): ", mean(msc_lm), "\n")
+
+cat("\n")
+
+cat("RMSE (Meeting Decision-tree): ", mean(rmse_tr), "\n")
+cat("RMSE (Meeting GLM): ", mean(rmse_glm), "\n")
+cat("RMSE (Meeting LM): ", mean(rmse_lm), "\n")
+
+plot(rmse_tr, type="l",col="green", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE Decision-tree", 
+     main="Change in RMSE of Decision-tree (Meeting)")
+plot(rmse_glm, type="l", col="red", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE GLM", main="Change in RMSE of GLM (Meeting)")
+plot(rmse_lm, type="l", col="blue", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE LM", main="Change in RMSE of LM (Meeting)")
+```
+
+From the analysis it is observable that the average RMSE in
+this particular case for the prediction of the 'Meeting' variable is best
+fitted to the decision-tree model (with a RMSE of 0.7236631).
+
+NOTE: In this fourth use-case the RMSE values are the same (~1) so this 
+measure is not particularly useful in finding the distinguish-ability of the 
+three models in terms of accuracy (RMSE should be used to predict the model 
+used, a lower RMSE value entails that the model is more accurate over other 
+options).
+
+Contrary, to previous beliefs in earlier sections of this report
+it was found that in this newer case the linear regression model will be 
+the best model to select. Due to the change in the variable of interest, 
+it is evident that the prediction capabilities of linear regression 
+(only in this context) is much more impactful.
+
+### e) Linear Regression, Decision-tree, Logistic Regression (Business)
+
+The fourth case will test the prediction accuracy of the linear regression,
+logistic regression, and decision-tree models with respect to predicting
+the 'Business' variable.
+
+```{r}
+set.seed(10)
+folds<-createFolds(spam$business, k=10)
+
+rmse_glm = rmse_lm = rmse_tr = msc_glm = msc_lm = msc_tr = numeric(10)
+
+set.seed(2023)
+suppressWarnings(for (i in 1:length(folds)) {
+  train_df = spam[folds[[i]],]
+  test_df = spam[-folds[[i]],]
+
+  tree_type<-tree(business~., data=train_df)
+  rings_hat<-predict(tree_type,newdata=test_df)
+  
+  rmse_tr[i] = sqrt(mean((rings_hat-test_df$business)^2))
+  
+  fit_lm=lm(business~., data=train_df)
+  pred_lm=predict(fit_lm, newdata=test_df)
+  
+  rmse_lm[i] = sqrt(mean((pred_lm-test_df$business)^2))
+  
+  fit_glm=glm(business~., data=train_df)
+  pred_glm=predict(fit_glm, newdata=test_df)
+  
+  rmse_glm[i] = sqrt(mean((pred_glm-test_df$business)^2))
+  
+  msc_tr[i] = mean(rings_hat!=test_df$business)
+  
+  msc_lm[i] = mean(pred_lm!=test_df$business)
+  
+  msc_glm[i] = mean(pred_glm!=test_df$business)
+})
+
+set.seed(2023)
+
+cat("Misclassification Error Rate (Business Decision-tree): ", 
+    mean(msc_tr), "\n")
+cat("Misclassification Error Rate (Business GLM): ", mean(msc_glm), "\n")
+cat("Misclassification Error Rate (Business LM): ", mean(msc_lm), "\n")
+
+cat("\n")
+
+cat("RMSE (Business Decision-tree): ", mean(rmse_tr), "\n")
+cat("RMSE (Business GLM): ", mean(rmse_glm), "\n")
+cat("RMSE (Business LM): ", mean(rmse_lm), "\n")
+
+plot(rmse_tr, type="l",col="green", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE Classification Tree", 
+     main="Change in MSE of Classification Tree (Business)")
+plot(rmse_glm, type="l", col="red", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE GLM", main="Change in RMSE of GLM (Business)")
+plot(rmse_lm, type="l", col="blue", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE LM", main="Change in RMSE of LM (Business)")
+```
+From the analysis it is observable that the average RMSE in
+this particular case for the prediction of the 'Business' variable is best
+fitted to the decision-tree model (with a RMSE of 0.4489717).
+
+NOTE: In this fifth use-case the RMSE values are the same (~1) so this 
+measure is not particularly useful in finding the distinguish-ability of the 
+three models in terms of accuracy (RMSE should be used to predict the model 
+used, a lower RMSE value entails that the model is more accurate over other 
+options).
+
+The decision-tree model will be selected in this case.
+
+### f) Linear Regression, Decision-tree, Logistic Regression (Free)
+
+The fifth case will test the prediction accuracy of the linear regression,
+logistic regression, and decision-tree models with respect to predicting
+the 'Free' variable.
+
+```{r}
+set.seed(10)
+folds<-createFolds(spam$free, k=10)
+
+rmse_glm = rmse_lm = rmse_tr = msc_glm = msc_lm = msc_tr = numeric(10)
+
+set.seed(2023)
+suppressWarnings(for (i in 1:length(folds)) {
+  train_df = spam[folds[[i]],]
+  test_df = spam[-folds[[i]],]
+
+  tree_type<-tree(free~., data=train_df)
+  rings_hat<-predict(tree_type,newdata=test_df)
+  
+  rmse_tr[i] = sqrt(mean((rings_hat-test_df$free)^2))
+  
+  fit_lm=lm(free~., data=train_df)
+  pred_lm=predict(fit_lm, newdata=test_df)
+  
+  rmse_lm[i] = sqrt(mean((pred_lm-test_df$free)^2))
+  
+  fit_glm=glm(free~., data=train_df)
+  pred_glm=predict(fit_glm, newdata=test_df)
+  
+  rmse_glm[i] = sqrt(mean((pred_glm-test_df$free)^2))
+  
+  msc_tr[i] = mean(rings_hat!=test_df$free)
+  
+  msc_lm[i] = mean(pred_lm!=test_df$free)
+  
+  msc_glm[i] = mean(pred_glm!=test_df$free)
+})
+
+set.seed(2023)
+
+cat("Misclassification Error Rate (Free Decision-tree): ", mean(msc_tr), "\n")
+cat("Misclassification Error Rate (Free GLM): ", mean(msc_glm), "\n")
+cat("Misclassification Error Rate (Free LM): ", mean(msc_lm), "\n")
+
+cat("\n")
+
+cat("RMSE (Free Decision-tree): ", mean(rmse_tr), "\n")
+cat("RMSE (Free GLM): ", mean(rmse_glm), "\n")
+cat("RMSE (Free LM): ", mean(rmse_lm), "\n")
+
+plot(rmse_tr, type="l",col="green", lwd=5, xlab="Fold Xn", 
+     ylab="MSE Classification Tree", 
+     main="Change in MSE of Classification Tree (Free)")
+plot(rmse_glm, type="l", col="red", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE GLM", main="Change in RMSE of GLM (Free)")
+plot(rmse_lm, type="l", col="blue", lwd=5, xlab="Fold Xn", 
+     ylab="RMSE LM", main="Change in RMSE of LM (Free)")
+```
+
+From the analysis it is observable that the average RMSE in
+this particular case for the prediction of the 'Free' variable is best
+fitted to the decision-tree model (with a RMSE of 0.8585146).
+
+NOTE: In this last use-case the RMSE values are the same (~1) so this 
+measure is not particularly useful in finding the distinguish-ability of the 
+three models in terms of accuracy (RMSE should be used to predict the model 
+used, a lower RMSE value entails that the model is more accurate over other 
+options).
+
+The decision-tree model will be selected in this case.
+
+To summarize:
+
+The spamPredictor() function demonstrated that by using just the frequency of 
+the word 'your' in e-mails, a prediction accuracy of approximately 75.7% could 
+be achieved with an optimal threshold of 0.6. This highlights the potential of 
+even a single feature to provide significant insights into e-mail 
+classification.[4]
+
+With a lower mis-classification error rate of around 0.1204, Linear Discriminant 
+Analysis (LDA) beat the classification tree model in the comparison analysis 
+conducted using k-fold cross-validation. This suggests that when predicting the 
+'Type' variable using all predictors, LDA is more appropriate for this 
+dataset. [4]
+
+The decision-tree model continuously displayed the lowest Root Mean Square 
+Error (RMSE) values for the variables "Credit," "Make," "Meeting," 
+"Business," and "Free," indicating its superior performance in predicting 
+these variables in the spam dataset. Notably, the linear regression model for 
+the "Meeting" variable was selected based on how well it performed, suggesting 
+that different models might be more appropriate for various 
+kinds of variables of interest. [3]
+ 
+With the exception of the 'Type' variable, where LDA was shown to be more 
+effective, the analysis indicates a bias for decision-tree models for the 
+majority of the variables studied. It indicates that certain features of 
+the spam dataset, like non-linear correlations and variable interactions, 
+may be especially well-suited for decision-trees to handle. [1]
+
+RMSE and mis-classification error rates were used in the study as important 
+measures to assess model performance. For classification tasks, 
+mis-classification error rates were important, but RMSE was useful for 
+determining how accurate regression models were. A uniform comparison of
+model performance was made possible by the constant use of these metrics 
+across various models and variables. [4]
+
+\newpage
+
+
+## UCalgary Spam E-mail Classification (Application)
+
+Function to preprocess e-mail body and output a dataframe with frequency of 
+word and character set that is in the Spambase dataset.
+
+```{r echo=TRUE}
+library(kernlab)
+data(spam)
+
+preprocessEmailBody <- function(emailBody, isSpam) {
+  featureWords = names(spam)[1:48]
+  featureChars = c(";", "(", "[", "!", "$", "#")
+
+  emailBodyLower <- tolower(emailBody)
+  wordsInEmail <- unlist(strsplit(emailBodyLower, "\\W+"))
+  totalWords <- length(wordsInEmail)
+  totalChars <- nchar(gsub("[[:space:]]", "", emailBody))
+  
+  # Calculate frequencies for words and characters
+  wordFrequencies <- sapply(featureWords, 
+                            function(word) sum(wordsInEmail == word) 
+                            / totalWords * 100)
+  charFrequencies <- sapply(featureChars, 
+                            function(char) { 
+                            charCount <- length(gregexpr(pattern = char, 
+                                                         text = emailBody, 
+                                                         fixed = TRUE)[[1]]
+                                                [gregexpr(pattern = char, 
+                                                          text = emailBody, 
+                                                      fixed = TRUE)[[1]] > 0])
+    return(charCount / totalChars * 100)
+  })
+  
+  
+  capitalRuns <- gregexpr("[A-Z]+", emailBody)[[1]]
+  runLengths <- attr(capitalRuns, "match.length")
+  totalCapitals <- sum(runLengths)
+  avgRunLength <- ifelse(length(runLengths) > 0, mean(runLengths), 0)
+  maxRunLength <- ifelse(length(runLengths) > 0, max(runLengths), 0)
+  
+  allMetrics <- c(wordFrequencies, charFrequencies, 
+                  capitalAve = avgRunLength, 
+                  capitalLong = maxRunLength,
+                  capitalTotal = totalCapitals,
+                  type = isSpam)
+  
+  metricsDataFrame <- as.data.frame(t(allMetrics), stringsAsFactors = FALSE)
+  names(metricsDataFrame)[names(metricsDataFrame) == ";"] <- "charSemicolon"
+  names(metricsDataFrame)[names(metricsDataFrame) == "("] <- "charRoundbracket"
+  names(metricsDataFrame)[names(metricsDataFrame) == "["] <- "charSquarebracket"
+  names(metricsDataFrame)[names(metricsDataFrame) == "!"] <- "charExclamation"
+  names(metricsDataFrame)[names(metricsDataFrame) == "$"] <- "charDollar"
+  names(metricsDataFrame)[names(metricsDataFrame) == "#"] <- "charHash"
+  
+  return(metricsDataFrame)
+}
+```
+
+Quickly generate a decision-tree.
+```{r echo=TRUE}
+library(tree)
+set.seed(2023)
+training_ind = sampling::strata(spam, stratanames = c("type"),
+                                size=c(1269, 1952), method = "srswor")
+training_set = spam[training_ind$ID_unit, ]
+testing_set = spam[-training_ind$ID_unit, ]
+tree_model = tree(factor(type)~., training_set)
+```
+
+Create a simulated e-mail body text and use the tree model to test if it 
+identifies as SPAM or not.
+
+```{r echo=TRUE}
+
+emailBody <- "This is a SAMPLE email Body. You can WIN free MONEY! Exclusive 
+OFFER for you. WIN WIN WIN. SAVE $$$ NOW! AAAAAA"
+
+sim_data <- preprocessEmailBody(emailBody, isSpam=1)
+print(sim_data)
+```
+
+```{r echo=TRUE}
+predict(tree_model, sim_data[1,], type="class")
+```
+
+Another E-mail (known spam)
+
+```{r echo=TRUE}
+emailBody = "
+
+Dear Valued Client, altonyu@ymail.com
+
+We safeguard your digital universe.
+
+We're excited to acknowledge the successful renewal of your subscription with 
+Trendmicron. Your confidence in our advanced security solutions is deeply 
+valued.
+
+Invoice Details:
+Date & Time: 29-01-2024 at 18:12:07
+Invoice ID: #473-I2WAR
+Product 	Quantity 	Unit Price 	Total
+ShieldWare IP Safeguard 	2 	$613.13 	$613.13
+
+Payment Status: Successfully processed
+Transaction Note: The charge will appear on your statement within the next 
+48 hours.
+
+Should you have any questions or require further assistance, our dedicated 
+Support Team is at your service.
+
+Reach Out: +1 | 833 | 835 ~ 2947
+
+Refund & Cancellation Policy:
+Your satisfaction is our top priority. If you find our services not meeting 
+your expectations, or should you encounter any challenges, we encourage you 
+to get in touch with us promptly for a resolution, in line with our service 
+terms.
+
+We are driven by your unwavering support to continuously excel and innovate 
+in the realm of digital security.
+
+Regards,
+Herbert B Perry
+Trend Micro™ Customer Support Center
++1 | 833 | 835 ~ 2947
+"
+
+sim_data = preprocessEmailBody(emailBody, isSpam=1)
+predict(tree_model, sim_data[1,], type="class")
+```
+
+
+Another E-mail (not spam).
+```{r echo=TRUE}
+emailBody = "February 10, 2024
+
+Dear Alton Yu,
+
+Items on your account that are due today have been processed through our 
+automatic renewal service. Here are the results:
+
+The following item(s) could not be automatically renewed.
+
+Please return the following item(s) to any Calgary Public Library location. 
+Any overdue items not returned after one month are considered lost and 
+replacement costs will be billed to your account.
+
+    A guide to business statistics
+
+    McEvoy, David M.; 519. 5 MCE; 39065152804645; Due Date: 02/10/2024; 
+    Times renewed: 0.
+
+
+The following item(s) have been successfully renewed. Please note their 
+new due dates.
+
+When you are finished with the item(s), they can be returned to any Calgary 
+Public Library location for other members to borrow.
+
+    Hands-on programming with R
+
+    Grolemund, Garrett; 519. 50285 GRO; 39065158804060; Due Date: 03/02/2024; 
+    Times renewed: 1.
+
+
+Please contact us if you have any questions.
+
+Thank you,
+
+Calgary Public Library"
+
+sim_data = preprocessEmailBody(emailBody, isSpam=1)
+predict(tree_model, sim_data[1,], type="class")
+```
+
+\newpage
+
+## Conclusion  
+
+The analysis's conclusions may have a big impact on e-mail spam filtering 
+systems since they imply that using LDA and decision-tree models together could 
+improve spam detection's accuracy. A reliable method of spam filtering might 
+involve the use of decision-tree models to forecast different email properties 
+and LDA to categorize e-mails into spam and non-spam categories. 
+
+In conclusion, our project highlights how crucial model selection is to 
+predictive analytics and shows how well decision-tree and LDA models work when 
+it comes to classifying spam e-mails. Subsequent investigations may examine the 
+incorporation of these models into spam filtering algorithms and evaluate their 
+efficacy in practical contexts. Furthermore, investigating other machine 
+learning models and feature selection strategies may improve prediction 
+accuracy even further and aid in the creation of increasingly complex spam 
+detection systems. 
+
+
+
+
